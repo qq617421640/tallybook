@@ -9,6 +9,6 @@ public class Constants {
     public final static String MSG_PHONE_CHECK="message:phone:";
 
     /** 超时时间 十分钟 */
-    public final static int OVER_TIME=10 * 60 * 1000;
+    public final static int OVER_TIME= 10 ;
 
 }

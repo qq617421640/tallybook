@@ -73,7 +73,6 @@
     </dependencies>
 
     <build>
-        <finalName>tallybook</finalName>
         <plugins>
             <!--JDK版本 -->
             <plugin>
@@ -86,6 +85,23 @@
                     <encoding>UTF-8</encoding>
                     <showWarnings>true</showWarnings>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.4.2.RELEASE</version>
+                <configuration>
+                    <finalName>tallybook</finalName>
+                    <mainClass>com.tallybook.Application</mainClass>
+                    <layout>WAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

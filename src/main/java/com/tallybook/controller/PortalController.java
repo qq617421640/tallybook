@@ -6,7 +6,6 @@ import com.tallybook.model.User;
 import com.tallybook.service.UserService;
 import com.tallybook.utils.MD5Utils;
 import com.tallybook.utils.MessageUtils;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,13 +48,12 @@ public class PortalController {
      * @throws AuthenticationException
      */
     @RequestMapping(value = "/messageValidCode", method = RequestMethod.POST)
-    public Response messageValidCode(HttpServletRequest request,
-                                     @RequestParam("mobilePhone") String mobilePhone) throws AuthenticationException {
+    public Response messageValidCode(@RequestParam(value = "mobilePhone",required = true) String mobilePhone) throws AuthenticationException {
         if (!checkPhone(mobilePhone)) return new Response(ERR_INVALID_FORMAT, "手机号格式错误");
         // 发送短信验证码
-        String code = MessageUtils.getPhoneMessage(mobilePhone, "312312412");
+        String code = MessageUtils.getPhoneMessage(mobilePhone, "112233");
         // 十分钟超时
-        redisTemplate.opsForValue().set(Constants.MSG_PHONE_CHECK + mobilePhone, code, Constants.OVER_TIME);
+        redisTemplate.opsForValue().set(Constants.MSG_PHONE_CHECK + mobilePhone, code, Constants.OVER_TIME, TimeUnit.MINUTES);
         return new Response(OK);
     }
 
